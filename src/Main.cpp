@@ -1,4 +1,5 @@
 #include "Platform/PlatformHelper.hpp"
+#include "game.hpp"
 
 int main()
 {
@@ -15,12 +16,9 @@ int main()
 	window.create(sf::VideoMode(800.0f * screenScalingFactor, 600.0f * screenScalingFactor), "Breakout!");
 	platform.setIcon(window.getSystemHandle());
 
-	sf::CircleShape shape(window.getSize().x / 2);
-	shape.setFillColor(sf::Color::White);
 
-	sf::Texture shapeTexture;
-	shapeTexture.loadFromFile("content/sfml.png");
-	shape.setTexture(&shapeTexture);
+
+	Game g(&window);
 
 	sf::Event event;
 
@@ -33,7 +31,7 @@ int main()
 		}
 
 		window.clear();
-		window.draw(shape);
+		g.update();
 		window.display();
 	}
 

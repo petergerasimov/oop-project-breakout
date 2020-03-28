@@ -2,48 +2,75 @@
 
 GameObject::GameObject()
 {
-	x = y = 0;
+	assert(window);
 }
 
-GameObject::GameObject(float x, float y)
+GameObject::GameObject(sf::RenderWindow* window)
 {
-	this->x = x;
-	this->y = y;
+	this->window = window;
 }
 
 GameObject::~GameObject()
 {
-
+	std::cout << "Game object destroyed!";
 }
 
 void GameObject::setX(float x)
 {
-	this->x = x;
+	this->pos.x = x;
 }
 
 void GameObject::setY(float y)
 {
-	this->y = y;
+	this->pos.y = y;
 }
 
-void GameObject::setXY(float x, float y)
+void GameObject::setPos(Point p)
 {
-	this->x = x;
-	this->y = y;
+	this->pos = p;
+}
+
+void GameObject::setDir(Vector2D dir)
+{
+	float eps = 0.0001;
+	//Making sure the direction doesn't affect the speed;
+	float max = std::max(dir.x, dir.y);
+
+	if(std::abs(max) < eps)
+		return;
+
+	this->dir.x = dir.x/max;
+	this->dir.y = dir.y/max;
 }
 
 float GameObject::getX()
 {
-	return x;
+	return this->pos.x;
 }
 
 float GameObject::getY()
 {
-	return y;
+	return this->pos.y;
 }
 
-void update()
+Point GameObject::getPos()
 {
+	return this->pos;
+}
+
+Vector2D GameObject::getDir()
+{
+	return this->dir;
+}
+
+void GameObject::update()
+{
+	this->pos.x += this->dir.x * this->vel;
+	this->pos.y += this->dir.y * this->vel;
 	draw();
-	//isColliding();
+}
+
+void GameObject::draw()
+{
+	std::cout << "Drawing! Override this!";
 }
