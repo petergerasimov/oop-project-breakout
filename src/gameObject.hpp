@@ -10,9 +10,10 @@ class GameObject
 		Vector2D dir = {0, 0};
 		float vel = 1;
 		sf::RenderWindow* window = nullptr;
-		draw();
+		void draw();
 	public:
 		GameObject();
+		GameObject(sf::RenderWindow* window);
 		~GameObject();
 		//Setters
 		void setX(float x);
