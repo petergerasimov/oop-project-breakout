@@ -43,6 +43,11 @@ void GameObject::setDir(Vector2D dir)
 	this->dir.y = dir.y/divBy;
 }
 
+void GameObject::setVelocity(float vel)
+{
+	this->vel = vel;
+}
+
 float GameObject::getX()
 {
 	return this->pos.x;
@@ -61,6 +66,11 @@ Point GameObject::getPos()
 Vector2D GameObject::getDir()
 {
 	return this->dir;
+}
+
+float GameObject::getVelocity()
+{
+	return this->vel;
 }
 
 void GameObject::updatePos()

@@ -12,8 +12,9 @@ Ball::Ball(sf::RenderWindow* window)
 	shape.setRadius(this->radius);
 	shape.setFillColor(sf::Color::White);
 
-	shapeTexture.loadFromFile("content/sfml.png");
-	shape.setTexture(&shapeTexture);
+	if(!shapeTexture.loadFromFile("content/sfml.png"))
+		std::cout << "Texture not loaded!";
+
 }
 
 void Ball::setRadius(float radius)
@@ -29,7 +30,9 @@ float Ball::getRadius()
 void Ball::draw()
 {
 	shape.setPosition(getX(), getY());
+	shape.setTexture(&shapeTexture);
 	window->draw(shape);
+
 }
 
 void Ball::update()
