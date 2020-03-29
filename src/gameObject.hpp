@@ -10,7 +10,7 @@ class GameObject
 		Vector2D dir = {0, 0};
 		float vel = 1;
 		sf::RenderWindow* window = nullptr;
-		void draw();
+		void updatePos();
 	public:
 		GameObject();
 		GameObject(sf::RenderWindow* window);

@@ -1,12 +1,13 @@
 #ifndef __GAME_HPP
 #define __GAME_HPP
 
+#include "ball.hpp"
+
 class Game
 {
 	private:
-		sf::CircleShape shape;
-		sf::Texture shapeTexture;
 		sf::RenderWindow* window;
+		Ball ball;
 	public:
 		Game(sf::RenderWindow* window);
 		void update();

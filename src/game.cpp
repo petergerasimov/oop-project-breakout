@@ -3,14 +3,12 @@
 Game::Game(sf::RenderWindow* window)
 {
 	this->window = window;
-	shape.setRadius(50);
-	shape.setFillColor(sf::Color::White);
-
-	shapeTexture.loadFromFile("content/sfml.png");
-	shape.setTexture(&shapeTexture);
+	ball = Ball(window); //Maybe add a method setWindow();
+	Vector2D dir = {1, 1};
+	ball.setDir(dir);
 }
 
 void Game::update()
 {
-	window->draw(shape);
+	ball.update();
 }

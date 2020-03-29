@@ -2,7 +2,7 @@
 
 GameObject::GameObject()
 {
-	assert(window);
+	//assert(window);
 }
 
 GameObject::GameObject(sf::RenderWindow* window)
@@ -34,13 +34,13 @@ void GameObject::setDir(Vector2D dir)
 {
 	float eps = 0.0001;
 	//Making sure the direction doesn't affect the speed;
-	float max = std::max(dir.x, dir.y);
+	float divBy = std::sqrt(dir.x*dir.x + dir.y*dir.y);
 
-	if(std::abs(max) < eps)
+	if(std::abs(divBy) < eps)
 		return;
 
-	this->dir.x = dir.x/max;
-	this->dir.y = dir.y/max;
+	this->dir.x = dir.x/divBy;
+	this->dir.y = dir.y/divBy;
 }
 
 float GameObject::getX()
@@ -63,14 +63,13 @@ Vector2D GameObject::getDir()
 	return this->dir;
 }
 
-void GameObject::update()
+void GameObject::updatePos()
 {
 	this->pos.x += this->dir.x * this->vel;
 	this->pos.y += this->dir.y * this->vel;
-	draw();
 }
 
-void GameObject::draw()
+void GameObject::update()
 {
-	std::cout << "Drawing! Override this!";
+	updatePos();
 }
