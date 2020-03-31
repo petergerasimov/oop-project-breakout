@@ -1,18 +1,20 @@
 #include "game.hpp"
+#include "collisions.hpp"
 
+// Use scale factor
 Game::Game(sf::RenderWindow* window)
 {
 	this->window = window;
 	ball = Ball(window); //Maybe add a method setWindow();
 	paddle = Paddle(window);
 
-	Vector2D dir = {1, 1};
-	ball.setVelocity(0.1);
-	ball.setDir(dir);
-	Point a = {400, 300};
-	ball.setPos(a);
+	//Vector2D dir = {1, 1};
+	ball.setVelocity(0.01);
+	ball.setDir({1, 1});
+	ball.setPos({400, 300});
 
 	paddle.setVelocity(0.1);
+	paddle.setPos({400, 780});
 }
 
 void Game::update()
@@ -31,6 +33,17 @@ void Game::update()
 		dir.y = -dir.y;
 		ball.setDir(dir);
 	}
+	//
+
+	bool test = colls::circleRectangle({ball.getX(), ball.getY(), ball.getRadius()},
+						   			   {paddle.getX(), paddle.getY(), paddle.getWidth(), paddle.getHeight()});
+
+	if(test) {
+		Vector2D dir = ball.getDir();
+		dir.y = -dir.y;
+		ball.setDir(dir);
+	}
+
 
 	ball.update();
 	paddle.update();

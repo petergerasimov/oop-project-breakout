@@ -13,7 +13,7 @@ int main()
 	// in Windows at least, this must be called before creating the window
 	float screenScalingFactor = platform.getScreenScalingFactor(window.getSystemHandle());
 	// Use the screenScalingFactor
-	window.create(sf::VideoMode(800.0f * screenScalingFactor, 600.0f * screenScalingFactor), "Breakout!");
+	window.create(sf::VideoMode(600.0f * screenScalingFactor, 800.0f * screenScalingFactor), "Breakout!");
 	platform.setIcon(window.getSystemHandle());
 
 

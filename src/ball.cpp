@@ -12,7 +12,7 @@ Ball::Ball(sf::RenderWindow* window)
 	shape.setRadius(this->radius);
 	shape.setFillColor(sf::Color::White);
 
-	if(!shapeTexture.loadFromFile("content/sfml.png"))
+	if(!shapeTexture.loadFromFile("content/ball.png"))
 		std::cout << "Texture not loaded!";
 
 }

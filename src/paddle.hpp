@@ -17,6 +17,14 @@ class Paddle : public GameObject
 		Paddle();
 		Paddle(sf::RenderWindow* window);
 		void update();
+
+		//Setters
+		void setWidth(float width);
+		void setHeight(float height);
+		//Getters
+		float getWidth();
+		float getHeight();
+
 };
 
 #endif //__PADDLE_HPP
