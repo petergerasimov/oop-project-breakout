@@ -10,13 +10,11 @@ class Brick : public GameObject
 		float height = 10;
 		sf::RectangleShape shape;
 		sf::Texture shapeTexture;
-		sf::RenderWindow* window = nullptr;
-		int id = 0;
 		void draw();
+		void init();
 	public:
 		Brick();
 		Brick(sf::RenderWindow* window);
-		~Brick();
 		void update();
 
 		//Setters
@@ -25,6 +23,7 @@ class Brick : public GameObject
 		//Getters
 		float getWidth();
 		float getHeight();
+		Rect getRect();
 };
 
 #endif //__BRICK_HPP_

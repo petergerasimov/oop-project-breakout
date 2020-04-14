@@ -2,6 +2,7 @@
 #define __BALL_HPP
 
 #include "gameObject.hpp"
+#include "gameUtils.hpp"
 
 class Ball : public GameObject
 {
@@ -9,8 +10,8 @@ class Ball : public GameObject
 		float radius = 5;
 		sf::CircleShape shape;
 		sf::Texture shapeTexture;
-		sf::RenderWindow* window = nullptr;
 		void draw();
+		void init();
 	public:
 		Ball();
 		Ball(sf::RenderWindow* window);
@@ -18,6 +19,8 @@ class Ball : public GameObject
 		void setRadius(float radius);
 		//Getters
 		float getRadius();
+		Circle getCircle();
+
 		void update();
 
 };

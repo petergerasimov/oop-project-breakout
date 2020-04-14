@@ -1,18 +1,19 @@
 #include "game.hpp"
 #include "collisions.hpp"
 
-// Use scale factor
+//TODO: Use scale factor
 Game::Game(sf::RenderWindow* window)
 {
 	this->window = window;
-	ball = Ball(window); //Maybe add a method setWindow();
-	paddle = Paddle(window);
+	ball.setWindow(window);
+	paddle.setWindow(window);
 
 
 	//Vector2D dir = {1, 1};
 	ball.setVelocity(0.2);
 	ball.setDir({1, 3});
-	ball.setPos({400, 300});
+	ball.setPos({(float)window->getSize().x / 2,
+				 (float)window->getSize().y / 2});
 
 	paddle.setWidth(window->getSize().x / 5);
 	paddle.setVelocity(0.2);
@@ -53,13 +54,8 @@ void Game::update()
 	}
 	//
 
-	bool isPaddleHit = colls::circleRectangle({ball.getX(),
-											   ball.getY(),
-										       ball.getRadius()},
-						   			          {paddle.getX(),
-										       paddle.getY(),
-										       paddle.getWidth(),
-										       paddle.getHeight()});
+	bool isPaddleHit = colls::circleRectangle(ball.getCircle(),
+											  paddle.getRect());
 
 	if(isPaddleHit) {
 		Vector2D dir = ball.getDir();
@@ -69,13 +65,8 @@ void Game::update()
 
 	for(auto& b : bricks)
 	{
-		bool isBrickHit = colls::circleRectangle({ball.getX(),
-												  ball.getY(),
-												  ball.getRadius()},
-						   			        	 {b.getX(),
-										    	  b.getY(),
-												  b.getWidth(),
-												  b.getHeight()});
+		bool isBrickHit = colls::circleRectangle(ball.getCircle(),
+											  	 b.getRect());
 
 		if(isBrickHit)
 		{

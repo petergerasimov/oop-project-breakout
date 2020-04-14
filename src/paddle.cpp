@@ -2,18 +2,13 @@
 
 Paddle::Paddle()
 {
-	std::cout << "Paddle created";
+	init();
 }
 
 Paddle::Paddle(sf::RenderWindow* window)
 {
-	this->window = window;
-
-	shape.setSize(sf::Vector2f(this->width, this->height));
-	shape.setFillColor(sf::Color::White);
-
-	if(!shapeTexture.loadFromFile("content/brick.png"))
-		std::cout << "Texture not loaded!";
+	setWindow(window);
+	init();
 }
 
 //Setters
@@ -40,12 +35,18 @@ float Paddle::getHeight()
 	return this->height;
 }
 
+Rect Paddle::getRect()
+{
+	Rect r = {getX(), getY(), width, height};
+	return r;
+}
+
 
 void Paddle::draw()
 {
 	shape.setPosition(getX(), getY());
 	shape.setTexture(&shapeTexture);
-	window->draw(shape);
+	getWindow()->draw(shape);
 
 }
 
@@ -67,4 +68,14 @@ void Paddle::update()
 	input();
 	updatePos();
 	draw();
+}
+
+
+void Paddle::init()
+{
+	shape.setSize(sf::Vector2f(this->width, this->height));
+	shape.setFillColor(sf::Color::White);
+
+	if(!shapeTexture.loadFromFile("content/brick.png"))
+		std::cout << "Texture not loaded!";
 }

@@ -22,12 +22,14 @@ class GameObject
 		void setPos(Point p);
 		void setDir(Vector2D dir);
 		void setVelocity(float vel);
+		void setWindow(sf::RenderWindow* window);
 
 		//Getters
 		float getX();
 		float getY();
 		Point getPos();
 		float getVelocity();
+		sf::RenderWindow* getWindow();
 
 		Vector2D getDir();
 		void updatePos();

@@ -2,6 +2,7 @@
 #define __PADDLE_HPP
 
 #include "gameObject.hpp"
+#include "gameUtils.hpp"
 
 class Paddle : public GameObject
 {
@@ -10,9 +11,9 @@ class Paddle : public GameObject
 		float height = 10;
 		sf::RectangleShape shape;
 		sf::Texture shapeTexture;
-		sf::RenderWindow* window = nullptr;
 		void draw();
 		void input();
+		void init();
 	public:
 		Paddle();
 		Paddle(sf::RenderWindow* window);
@@ -24,6 +25,7 @@ class Paddle : public GameObject
 		//Getters
 		float getWidth();
 		float getHeight();
+		Rect getRect();
 
 };
 

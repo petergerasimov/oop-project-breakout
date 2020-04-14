@@ -12,9 +12,10 @@ GameObject::GameObject(sf::RenderWindow* window)
 
 GameObject::~GameObject()
 {
-	std::cout << "Game object destroyed!";
+	//std::cout << "Game object destroyed!";
 }
 
+//Setters
 void GameObject::setX(float x)
 {
 	this->pos.x = x;
@@ -48,6 +49,12 @@ void GameObject::setVelocity(float vel)
 	this->vel = vel;
 }
 
+void GameObject::setWindow(sf::RenderWindow* window)
+{
+	this->window = window;
+}
+
+//Getters
 float GameObject::getX()
 {
 	return this->pos.x;
@@ -71,6 +78,11 @@ Vector2D GameObject::getDir()
 float GameObject::getVelocity()
 {
 	return this->vel;
+}
+
+sf::RenderWindow* GameObject::getWindow()
+{
+	return window;
 }
 
 void GameObject::updatePos()

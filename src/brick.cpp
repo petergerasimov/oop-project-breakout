@@ -2,23 +2,13 @@
 
 Brick::Brick()
 {
-	std::cout << "Brick created";
+	init();
 }
 
 Brick::Brick(sf::RenderWindow* window)
 {
-	this->window = window;
-
-	shape.setSize(sf::Vector2f(this->width, this->height));
-	shape.setFillColor(sf::Color::White);
-
-	if(!shapeTexture.loadFromFile("content/brick.png"))
-		std::cout << "Texture not loaded!";
-}
-
-Brick::~Brick()
-{
-	std::cout << "Brick destroyed!";
+	setWindow(window);
+	init();
 }
 
 //Setters
@@ -45,15 +35,30 @@ float Brick::getHeight()
 	return this->height;
 }
 
+Rect Brick::getRect()
+{
+	Rect r = {getX(), getY(), width, height};
+	return r;
+}
+
 void Brick::draw()
 {
 	shape.setPosition(getX(), getY());
 	shape.setTexture(&shapeTexture);
-	window->draw(shape);
+	getWindow()->draw(shape);
 
 }
 
 void Brick::update()
 {
 	draw();
+}
+
+void Brick::init()
+{
+	shape.setSize(sf::Vector2f(this->width, this->height));
+	shape.setFillColor(sf::Color::White);
+
+	if(!shapeTexture.loadFromFile("content/brick.png"))
+		std::cout << "Texture not loaded!";
 }
