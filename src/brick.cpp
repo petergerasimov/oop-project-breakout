@@ -1,11 +1,11 @@
-#include "paddle.hpp"
+#include "brick.hpp"
 
-Paddle::Paddle()
+Brick::Brick()
 {
-	std::cout << "Paddle created";
+	std::cout << "Brick created";
 }
 
-Paddle::Paddle(sf::RenderWindow* window)
+Brick::Brick(sf::RenderWindow* window)
 {
 	this->window = window;
 
@@ -16,32 +16,36 @@ Paddle::Paddle(sf::RenderWindow* window)
 		std::cout << "Texture not loaded!";
 }
 
+Brick::~Brick()
+{
+	std::cout << "Brick destroyed!";
+}
+
 //Setters
-void Paddle::setWidth(float width)
+void Brick::setWidth(float width)
 {
 	this->width = width;
 	shape.setSize(sf::Vector2f(this->width, this->height));
 }
 
-void Paddle::setHeight(float height)
+void Brick::setHeight(float height)
 {
 	this->height = height;
 	shape.setSize(sf::Vector2f(this->width, this->height));
 }
 
 //Getters
-float Paddle::getWidth()
+float Brick::getWidth()
 {
 	return this->width;
 }
 
-float Paddle::getHeight()
+float Brick::getHeight()
 {
 	return this->height;
 }
 
-
-void Paddle::draw()
+void Brick::draw()
 {
 	shape.setPosition(getX(), getY());
 	shape.setTexture(&shapeTexture);
@@ -49,22 +53,7 @@ void Paddle::draw()
 
 }
 
-void Paddle::input()
+void Brick::update()
 {
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-	{
-		setX(getX() - getVelocity());
-	}
-
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-	{
-		setX(getX() + getVelocity());
-	}
-}
-
-void Paddle::update()
-{
-	input();
-	updatePos();
 	draw();
 }
