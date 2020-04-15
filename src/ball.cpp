@@ -14,6 +14,8 @@ Ball::Ball(sf::RenderWindow* window)
 void Ball::setRadius(float radius)
 {
 	this->radius = radius;
+	shape.setRadius(this->radius);
+	shape.setOrigin({this->radius, this->radius});
 }
 //Getters
 float Ball::getRadius()
@@ -23,13 +25,13 @@ float Ball::getRadius()
 
 Circle Ball::getCircle()
 {
-	Circle c = {getX(), getY(), radius};
-	return c;
+	return Circle({getX(), getY(), radius});
 }
 
 void Ball::init()
 {
 	shape.setRadius(this->radius);
+	shape.setOrigin({this->radius, this->radius});
 	shape.setFillColor(sf::Color::White);
 
 	if(!shapeTexture.loadFromFile("content/ball.png"))
@@ -46,4 +48,14 @@ void Ball::update()
 {
 	updatePos();
 	draw();
+}
+
+void Ball::reverseDirX()
+{
+	setDir({-getDir().x, getDir().y});
+}
+
+void Ball::reverseDirY()
+{
+	setDir({getDir().x ,-getDir().y});
 }

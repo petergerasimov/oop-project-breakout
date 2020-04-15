@@ -22,6 +22,8 @@ class Ball : public GameObject
 		Circle getCircle();
 
 		void update();
+		void reverseDirX();
+		void reverseDirY();
 
 };
 

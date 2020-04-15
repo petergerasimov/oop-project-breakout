@@ -1,5 +1,5 @@
-#ifndef __BRICK_HPP_
-#define __BRICK_HPP_
+#ifndef __BRICK_HPP
+#define __BRICK_HPP
 
 #include "gameObject.hpp"
 
@@ -26,4 +26,4 @@ class Brick : public GameObject
 		Rect getRect();
 };
 
-#endif //__BRICK_HPP_
+#endif //__BRICK_HPP
