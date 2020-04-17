@@ -135,7 +135,7 @@ void Game::gameOverScene()
 
 	playerNameText.setOrigin(width / 2, 0);
 	playerNameText.setPosition({(float)window->getSize().x / 2,
-								(gameOverText.getOrigin().y + gameOverText.getLocalBounds().y});
+								gameOverText.getOrigin().y + gameOverText.getLocalBounds().height});
 
 
 	if (event->type == sf::Event::TextEntered)
