@@ -100,7 +100,6 @@ void Game::gameScene()
 			gVelocity+=0.01;
 			paddle.setVelocity(gVelocity);
 			ball.setVelocity(gVelocity);
-
 		}
 		b.update();
 	}
