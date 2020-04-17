@@ -130,34 +130,47 @@ void Game::gameOverScene()
 {
 	float width = gameOverText.getLocalBounds().width;
 	gameOverText.setOrigin(width / 2, 0);
-	gameOverText.setString("Game over!\nScore: " + std::to_string(score) +
-						   "Name: ");
+	gameOverText.setString("Game over!\nScore: " + std::to_string(score));
 
 	playerNameText.setOrigin(width / 2, 0);
 	playerNameText.setPosition({(float)window->getSize().x / 2,
-								gameOverText.getOrigin().y + gameOverText.getLocalBounds().height});
+	 							gameOverText.getPosition().y + gameOverText.getLocalBounds().height + 10});
 
 
 	if (event->type == sf::Event::TextEntered)
 	{
-		if(event->text.unicode != '\b')
-		{
-			if(event->text.unicode < sizeof(char) * 8)
-			{
-				playerName += (char)event->text.unicode;
-			}
 
+		char c = '#';
+
+		if(event->text.unicode < 256)
+		{
+			c = (char)event->text.unicode;
+		}
+
+		if(c != '\b')
+		{
+			playerName.push_back(c);
 		}
 		else
 		{
 			if(!playerName.empty())
+			{
 				playerName.pop_back();
+			}
 		}
 
 
-		playerNameText.setString(playerName);
+
 		sf::Time t = sf::milliseconds(120);
 		sf::sleep(t);
+	}
+	if(playerName.empty())
+	{
+		playerNameText.setString("Type name");
+	}
+	else
+	{
+		playerNameText.setString(playerName);
 	}
 	window->draw(playerNameText);
 	window->draw(gameOverText);
