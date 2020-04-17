@@ -16,9 +16,9 @@ void Game::setup()
 	paddle.setWindow(window);
 
 	//Setting some initial values
-	lives = 1;
+	lives = 3;
 	score = 0;
-	gVelocity = initVelocity;
+	gVelocity = initVelocity = 0.1;
 
 	ball.setVelocity(gVelocity);
 	ball.setDir({1, 3});
@@ -139,26 +139,29 @@ void Game::gameOverScene()
 
 	if (event->type == sf::Event::TextEntered)
 	{
-
+		//If someone somehow types a non-ascii symbol it will be displayed as a #
 		char c = '#';
 
-		if(event->text.unicode < 256)
+		if(event->text.unicode < 128)
 		{
 			c = (char)event->text.unicode;
 		}
 
-		if(c != '\b')
-		{
-			playerName.push_back(c);
-		}
-		else
+		if(c == '\b')
 		{
 			if(!playerName.empty())
 			{
 				playerName.pop_back();
 			}
 		}
-
+		else if(c == '\r' || c == '\n')
+		{
+			setup();
+		}
+		else
+		{
+			playerName.push_back(c);
+		}
 
 
 		sf::Time t = sf::milliseconds(120);
@@ -179,7 +182,16 @@ void Game::gameOverScene()
 void Game::update()
 {
 	if (lives > 0 && bricks.size() > 0)
+	{
 		gameScene();
+	}
 	else
+	{
+		if(!bricks.empty())
+		{
+			bricks.clear();
+		}
 		gameOverScene();
+	}
+
 }

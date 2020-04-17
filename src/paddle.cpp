@@ -76,6 +76,6 @@ void Paddle::init()
 	shape.setSize(sf::Vector2f(this->width, this->height));
 	shape.setFillColor(sf::Color::White);
 
-	if(!shapeTexture.loadFromFile("content/brick.png"))
+	if(!shapeTexture.loadFromFile("content/paddle.png"))
 		std::cout << "Texture not loaded!";
 }
