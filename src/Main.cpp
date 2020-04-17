@@ -16,11 +16,9 @@ int main()
 	window.create(sf::VideoMode(600.0f * screenScalingFactor, 800.0f * screenScalingFactor), "Breakout!");
 	platform.setIcon(window.getSystemHandle());
 
-
-
-	Game g(&window);
-
 	sf::Event event;
+
+	Game g(&window, &event);
 
 	while (window.isOpen())
 	{

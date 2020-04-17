@@ -11,8 +11,13 @@ class Game
 	private:
 		//SFML vars
 		sf::RenderWindow* window;
+		sf::Event* event;
 		sf::Font font;
-		sf::Text text;
+		sf::Text scoreText;
+		sf::Text gameOverText;
+		sf::Text playerNameText;
+		//
+		std::string playerName;
 		//Game objects
 		Ball ball;
 		Paddle paddle;
@@ -31,9 +36,10 @@ class Game
 		float gVelocity;
 
 	public:
-		Game(sf::RenderWindow* window);
+		Game(sf::RenderWindow* window, sf::Event* event);
 		void gameScene();
 		void gameOverScene();
+		void setup();
 		void update();
 
 };
