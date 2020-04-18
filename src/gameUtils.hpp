@@ -5,6 +5,10 @@ struct Point
 {
 	float x;
 	float y;
+	sf::Vector2f getSfVec()
+	{
+		return sf::Vector2f(x,y);
+	}
 };
 
 struct Vector2D : Point{};

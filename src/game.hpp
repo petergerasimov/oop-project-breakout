@@ -35,6 +35,8 @@ class Game
 		//Global velocity
 		float gVelocity;
 
+		Point getScreenCenter();
+
 	public:
 		Game(sf::RenderWindow* window, sf::Event* event);
 		void gameScene();

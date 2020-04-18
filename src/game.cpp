@@ -9,6 +9,12 @@ Game::Game(sf::RenderWindow *window, sf::Event* event)
 	setup();
 }
 
+Point Game::getScreenCenter()
+{
+	return {(float)window->getSize().x / 2,
+			(float)window->getSize().y / 2};
+}
+
 void Game::setup()
 {
 	//Making sure all the objects are drawn on the same window
@@ -22,10 +28,8 @@ void Game::setup()
 
 	ball.setVelocity(gVelocity);
 	ball.setDir({1, 3});
-	ballStartPos = {(float)window->getSize().x / 2,
-					(float)window->getSize().y / 2};
+	ballStartPos = getScreenCenter();
 	ball.setPos(ballStartPos);
-	//ball.setRadius(40);
 
 	paddle.setWidth(window->getSize().x / 5);
 	paddle.setVelocity(gVelocity);
@@ -52,19 +56,14 @@ void Game::setup()
 	if (!font.loadFromFile("content/FredokaOne-Regular.ttf"))
 		std::cout << "Font not loaded";
 
-	scoreText.setFont(font);
-	scoreText.setCharacterSize(brickOffset / 2);
-	scoreText.setFillColor(sf::Color::White);
 
-	gameOverText.setFont(font);
-	gameOverText.setCharacterSize(brickOffset / 2);
-	gameOverText.setFillColor(sf::Color::White);
-	gameOverText.setPosition({(float)window->getSize().x / 2,
-							  (float)window->getSize().y / 2});
-
-	playerNameText.setFont(font);
-	playerNameText.setCharacterSize(brickOffset / 2);
-	playerNameText.setFillColor(sf::Color::White);
+	std::vector<sf::Text*> texts = {&scoreText, &gameOverText, &playerNameText};
+	for(auto &t : texts)
+	{
+		t->setFont(font);
+		t->setCharacterSize(brickOffset / 2);
+	}
+	gameOverText.setPosition(getScreenCenter().getSfVec());
 }
 
 void Game::gameScene()

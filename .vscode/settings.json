@@ -93,7 +93,9 @@
 		"thread": "cpp",
 		"typeinfo": "cpp",
 		"variant": "cpp",
-		"limits": "cpp"
+		"limits": "cpp",
+		"bit": "cpp",
+		"shared_mutex": "cpp"
 	},
 
 	"terminal.integrated.shell.windows": "C:/Program Files/Git/bin/bash.exe",
