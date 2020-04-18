@@ -22,7 +22,7 @@ void Game::setup()
 	paddle.setWindow(window);
 
 	//Setting some initial values
-	lives = 3;
+	lives = 9999;
 	score = 0;
 	gVelocity = initVelocity = 0.1;
 
@@ -92,8 +92,31 @@ void Game::gameScene()
 	bool isPaddleHit = colls::circleRectangle(ball.getCircle(),
 											  paddle.getRect());
 
+
+
 	if (isPaddleHit)
-		ball.reverseDirY();
+	{
+		//Temporary solution
+		//test collisions with a slightly smaller ball
+		bool isInside = colls::circleRectangle({ball.getX(), ball.getY(), ball.getRadius() - 1},
+												paddle.getRect());
+		//Check if the sides are being hit
+		if(ball.getY() >= paddle.getY() && ball.getY() <= paddle.getY() + paddle.getHeight())
+		{
+			ball.reverseDirX();
+		}
+		//If the ball clips inside the paddle move it up slightly
+		else if(isInside)
+		{
+			ball.setY(ball.getY() - 2*paddle.getHeight());
+		}
+		//Check if the top (or bottom) is being hit
+		else
+		{
+			ball.reverseDirY();
+		}
+	}
+
 	//
 
 	//Collisons with bricks
