@@ -22,7 +22,7 @@ void Game::setup()
 	paddle.setWindow(window);
 
 	//Setting some initial values
-	lives = 9999;
+	lives = 3;
 	score = 0;
 	gVelocity = initVelocity = 0.1;
 

@@ -8,7 +8,7 @@ bool colls::circleCircle(Circle a, Circle b)
 bool colls::circleRectangle(Circle circle, Rect rect)
 {
 	Point temp = {circle.x, circle.y};
-
+	//Got the concept from - http://www.jeffreythompson.org/collision-detection/circle-rect.php
 	//Check left and right edges of the rectangle
 	if (circle.x < rect.x)
 		temp.x = rect.x;
