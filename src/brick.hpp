@@ -15,7 +15,6 @@ class Brick : public GameObject
 	public:
 		Brick();
 		Brick(sf::RenderWindow* window);
-		void update();
 
 		//Setters
 		void setWidth(float width);

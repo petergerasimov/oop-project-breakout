@@ -31,11 +31,11 @@ class Game
 		int score = 0;
 		int lives = 3;
 		float initVelocity = 0.1;
-		Point ballStartPos;
+		sf::Vector2f ballStartPos;
 		//Global velocity
 		float gVelocity;
 
-		Point getScreenCenter();
+		sf::Vector2f getScreenCenter();
 
 	public:
 		Game(sf::RenderWindow* window, sf::Event* event);

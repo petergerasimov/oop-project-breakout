@@ -9,7 +9,7 @@ Game::Game(sf::RenderWindow *window, sf::Event* event)
 	setup();
 }
 
-Point Game::getScreenCenter()
+sf::Vector2f Game::getScreenCenter()
 {
 	return {(float)window->getSize().x / 2,
 			(float)window->getSize().y / 2};
@@ -63,7 +63,7 @@ void Game::setup()
 		t->setFont(font);
 		t->setCharacterSize(brickOffset / 2);
 	}
-	gameOverText.setPosition(getScreenCenter().getSfVec());
+	gameOverText.setPosition(getScreenCenter());
 }
 
 void Game::gameScene()
@@ -98,7 +98,7 @@ void Game::gameScene()
 	{
 		//Temporary solution
 		//test collisions with a slightly smaller ball
-		bool isInside = colls::circleRectangle({ball.getX(), ball.getY(), ball.getRadius() - 1},
+		bool isInside = colls::circleRectangle({{ball.getX(), ball.getY()}, ball.getRadius() - 1},
 												paddle.getRect());
 		//Check if the sides are being hit
 		if(ball.getY() >= paddle.getY() && ball.getY() <= paddle.getY() + paddle.getHeight())

@@ -14,10 +14,11 @@ class Paddle : public GameObject
 		void draw();
 		void input();
 		void init();
+		void updatePos();
 	public:
 		Paddle();
 		Paddle(sf::RenderWindow* window);
-		void update();
+
 
 		//Setters
 		void setWidth(float width);

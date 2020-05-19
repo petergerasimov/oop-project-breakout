@@ -6,8 +6,8 @@
 class GameObject
 {
 	private:
-		Point pos = {0, 0};
-		Vector2D dir = {0, 0}; //Use sfml vector instead of this
+		sf::Vector2f pos = {0, 0};
+		sf::Vector2f dir = {0, 0}; //Use sfml vector instead of this
 		float vel = 1;
 		sf::RenderWindow* window = nullptr;
 
@@ -19,20 +19,21 @@ class GameObject
 		//Setters
 		void setX(float x);
 		void setY(float y);
-		void setPos(Point p);
-		void setDir(Vector2D dir);
+		void setPos(sf::Vector2f p);
+		void setDir(sf::Vector2f dir);
 		void setVelocity(float vel);
 		void setWindow(sf::RenderWindow* window);
 
 		//Getters
 		float getX();
 		float getY();
-		Point getPos();
+		sf::Vector2f getPos();
 		float getVelocity();
 		sf::RenderWindow* getWindow();
 
-		Vector2D getDir();
-		void updatePos();
+		sf::Vector2f getDir();
+		virtual void draw();
+		virtual void updatePos();
 		void update();
 };
 

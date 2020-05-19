@@ -37,7 +37,7 @@ float Paddle::getHeight()
 
 Rect Paddle::getRect()
 {
-	Rect r = {getX(), getY(), width, height};
+	Rect r = {{getX(), getY()}, width, height};
 	return r;
 }
 
@@ -63,11 +63,10 @@ void Paddle::input()
 	}
 }
 
-void Paddle::update()
+void Paddle::updatePos()
 {
 	input();
-	updatePos();
-	draw();
+	GameObject::updatePos();
 }
 
 

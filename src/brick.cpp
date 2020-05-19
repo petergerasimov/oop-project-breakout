@@ -37,7 +37,7 @@ float Brick::getHeight()
 
 Rect Brick::getRect()
 {
-	Rect r = {getX(), getY(), width, height};
+	Rect r = {{getX(), getY()}, width, height};
 	return r;
 }
 
@@ -47,11 +47,6 @@ void Brick::draw()
 	shape.setTexture(&shapeTexture);
 	getWindow()->draw(shape);
 
-}
-
-void Brick::update()
-{
-	draw();
 }
 
 void Brick::init()

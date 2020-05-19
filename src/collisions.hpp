@@ -6,11 +6,6 @@
 
 namespace colls
 {
-	// struct edge
-	// {
-	// 	bool vertical;
-	// 	bool horizontal;
-	// }
 	bool circleCircle(Circle a, Circle b);
 	bool circleRectangle(Circle circle, Rect rect);
 }

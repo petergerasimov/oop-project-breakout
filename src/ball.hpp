@@ -21,7 +21,6 @@ class Ball : public GameObject
 		float getRadius();
 		Circle getCircle();
 
-		void update();
 		void reverseDirX();
 		void reverseDirY();
 

@@ -25,7 +25,7 @@ float Ball::getRadius()
 
 Circle Ball::getCircle()
 {
-	return Circle({getX(), getY(), radius});
+	return Circle({{getX(), getY()}, radius});
 }
 
 void Ball::init()
@@ -44,11 +44,7 @@ void Ball::draw()
 	getWindow()->draw(shape);
 }
 
-void Ball::update()
-{
-	updatePos();
-	draw();
-}
+
 
 void Ball::reverseDirX()
 {

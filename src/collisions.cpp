@@ -7,7 +7,7 @@ bool colls::circleCircle(Circle a, Circle b)
 
 bool colls::circleRectangle(Circle circle, Rect rect)
 {
-	Point temp = {circle.x, circle.y};
+	sf::Vector2f temp = {circle.x, circle.y};
 	//Got the concept from - http://www.jeffreythompson.org/collision-detection/circle-rect.php
 	//Check left and right edges of the rectangle
 	if (circle.x < rect.x)
@@ -20,5 +20,6 @@ bool colls::circleRectangle(Circle circle, Rect rect)
 	else if (circle.y > rect.y + rect.h)
 		temp.y = rect.y + rect.h;
 
-	return std::hypotf(circle.x - temp.x, circle.y - temp.y) <= circle.r;
+	//return std::hypotf(circle.x - temp.x, circle.y - temp.y) <= circle.r;
+	return (circle.x - temp.x) * (circle.x - temp.x) + (circle.y - temp.y) * (circle.y - temp.y) <= circle.r * circle.r;
 }

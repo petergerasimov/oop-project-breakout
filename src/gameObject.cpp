@@ -26,12 +26,12 @@ void GameObject::setY(float y)
 	this->pos.y = y;
 }
 
-void GameObject::setPos(Point p)
+void GameObject::setPos(sf::Vector2f p)
 {
 	this->pos = p;
 }
 
-void GameObject::setDir(Vector2D dir)
+void GameObject::setDir(sf::Vector2f dir)
 {
 	float eps = 0.0001;
 	//Making sure the direction doesn't affect the speed;
@@ -65,12 +65,12 @@ float GameObject::getY()
 	return this->pos.y;
 }
 
-Point GameObject::getPos()
+sf::Vector2f GameObject::getPos()
 {
 	return this->pos;
 }
 
-Vector2D GameObject::getDir()
+sf::Vector2f GameObject::getDir()
 {
 	return this->dir;
 }
@@ -94,4 +94,10 @@ void GameObject::updatePos()
 void GameObject::update()
 {
 	updatePos();
+	draw();
+}
+
+void GameObject::draw()
+{
+	std::cout << "drawing" << std::endl;
 }
