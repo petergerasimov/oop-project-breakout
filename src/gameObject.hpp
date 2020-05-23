@@ -7,7 +7,7 @@ class GameObject
 {
 	private:
 		sf::Vector2f pos = {0, 0};
-		sf::Vector2f dir = {0, 0}; //Use sfml vector instead of this
+		sf::Vector2f dir = {0, 0};
 		float vel = 1;
 		sf::RenderWindow* window = nullptr;
 

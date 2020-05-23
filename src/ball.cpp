@@ -43,7 +43,10 @@ void Ball::draw()
 	shape.setTexture(&shapeTexture);
 	getWindow()->draw(shape);
 }
-
+float Ball::map(float x, float a, float b, float c, float d)
+{
+	return c + ((x-a)/(b-a))*(d-c);
+}
 
 
 void Ball::reverseDirX()
@@ -85,7 +88,17 @@ bool Ball::collRect(Rect rect)
 			//Change direction only if the ball is going towards the center of the rectangle
 			if(std::signbit(getDir().y) == std::signbit(rect.y + (rect.h / 2) - getY()))
 			{
-				reverseDirY();
+				//Select angle
+				static const float pi = 3.141592654f;
+				if (std::signbit(getDir().y))
+				{
+					setDir(map(getX(), rect.x, rect.x + rect.w, 3*pi/4, pi/4));
+				}
+				else
+				{
+					setDir(-map(getX(), rect.x, rect.x + rect.w, 3*pi/4, pi/4));
+				}
+				//reverseDirY();
 			}
 			toReturn = true;
 		}
@@ -97,7 +110,17 @@ bool Ball::collRect(Rect rect)
 			//Change direction only if the ball is going towards the center of the rectangle
 			if(std::signbit(getDir().x) == std::signbit(rect.x + (rect.w / 2) - getX()))
 			{
-				reverseDirX();
+				//Select angle
+				static const float pi = 3.141592654f;
+				if (std::signbit(getDir().x))
+				{
+					setDir(-map(getY(), rect.y, rect.y + rect.h, pi/4, -pi/4));
+				}
+				else
+				{
+					setDir(-map(getY(), rect.y, rect.y + rect.h, 3*pi/4, 5*pi/4));
+				}
+				//reverseDirX();
 			}
 			toReturn = true;
 		}

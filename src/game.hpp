@@ -22,7 +22,6 @@ class Game
 		Ball ball;
 		Paddle paddle;
 		std::vector<Brick> bricks;
-		std::vector<Rect> boundingBox;
 		//Brick parameters
 		int bricksPerRow = 6;
 		int brickRows = 6;
@@ -41,6 +40,8 @@ class Game
 	public:
 		Game(sf::RenderWindow* window, sf::Event* event);
 		void gameScene();
+		void onDeath();
+		void scoreUpdate();
 		void gameOverScene();
 		void setup();
 		void update();

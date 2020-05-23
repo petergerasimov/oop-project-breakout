@@ -20,22 +20,14 @@ void Game::setup()
 	ball.setWindow(window);
 	paddle.setWindow(window);
 
-	//Set bounding box
-	float width = (float)window->getSize().x;
-	float height = (float)window->getSize().y;
-	boundingBox.push_back(Rect(0,0,width,1));
-	boundingBox.push_back(Rect(0,0,1,height));
-	//boundingBox.push_back(Rect(0,height - 1,width - 1,1));
-	boundingBox.push_back(Rect(width - 1,0,1,height - 1));
-	//
-
 	//Setting some initial values
 	lives = 3;
 	score = 0;
-	gVelocity = initVelocity = 0.1;
+	gVelocity = initVelocity = 0.15;
 
 	ball.setVelocity(gVelocity);
 	ball.setDir({1, 3});
+	//ball.setDir(-2.0f);
 	ballStartPos = getScreenCenter();
 	ball.setPos(ballStartPos);
 
@@ -76,35 +68,20 @@ void Game::setup()
 
 void Game::gameScene()
 {
-	//Collisions with screen TODO: Make better
-	// if (ball.getX() >= window->getSize().x || ball.getX() <= 0)
-	// 	ball.reverseDirX();
+	//Collisions with screen
+	if (ball.getX() >= window->getSize().x || ball.getX() <= 0)
+		ball.reverseDirX();
 
-	// if (ball.getY() <= 0)
-	// 	ball.reverseDirY();
+	if (ball.getY() <= 0)
+		ball.reverseDirY();
 
 	if (ball.getY() >= window->getSize().y)
 	{
-		//Death -- reset positions
-		gVelocity = initVelocity;
-		ball.setVelocity(gVelocity);
-		ball.setPos(ballStartPos);
-		paddle.setVelocity(gVelocity);
-		lives--;
+		onDeath();
 	}
-
-	for(auto &b : boundingBox)
-	{
-		// sf::RectangleShape rect(sf::Vector2f(b.w, b.h));
-		// rect.setPosition(b.x, b.y);
-		// window->draw(rect);
-		ball.collRect(b);
-	}
-
 
 	ball.collRect(paddle.getRect());
 
-	//Collisons with bricks
 	for (auto &b : bricks)
 	{
 		if(ball.collRect(b.getRect()))
@@ -113,20 +90,37 @@ void Game::gameScene()
 			b = bricks.back();
 			bricks.pop_back();
 
-			score += 100 * gVelocity;
-			gVelocity += 0.01;
-			paddle.setVelocity(gVelocity);
-			ball.setVelocity(gVelocity);
+			scoreUpdate();
 		}
 		b.update();
 	}
-	//
 
+	//
+	// ball.setX(sf::Mouse::getPosition().x);
+	// ball.setY(sf::Mouse::getPosition().y);
+	//
 	ball.update();
 	paddle.update();
 	scoreText.setString("Score: " + std::to_string(score) +
 						" Lives: " + std::to_string(lives));
 	window->draw(scoreText);
+}
+
+void Game::onDeath()
+{
+	gVelocity = initVelocity;
+	ball.setVelocity(gVelocity);
+	ball.setPos(ballStartPos);
+	paddle.setVelocity(gVelocity);
+	lives--;
+}
+
+void Game::scoreUpdate()
+{
+	score += 100 * gVelocity;
+	gVelocity += 0.01;
+	paddle.setVelocity(gVelocity);
+	ball.setVelocity(gVelocity);
 }
 
 void Game::gameOverScene()

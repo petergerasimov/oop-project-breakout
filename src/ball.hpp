@@ -12,10 +12,12 @@ class Ball : public GameObject
 		sf::Texture shapeTexture;
 		void draw();
 		void init();
+		//maps variable x from range [a,b] to range [c,d]
+		float map(float x, float a, float b, float c, float d);
 	public:
 		Ball();
 		Ball(sf::RenderWindow* window);
-		//Setters7
+		//Setters
 		void setRadius(float radius);
 		//Getters
 		float getRadius();
