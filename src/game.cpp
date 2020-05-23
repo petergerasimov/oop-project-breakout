@@ -1,5 +1,4 @@
 #include "game.hpp"
-#include "collisions.hpp"
 #include <string>
 
 Game::Game(sf::RenderWindow *window, sf::Event* event)
@@ -20,6 +19,15 @@ void Game::setup()
 	//Making sure all the objects are drawn on the same window
 	ball.setWindow(window);
 	paddle.setWindow(window);
+
+	//Set bounding box
+	float width = (float)window->getSize().x;
+	float height = (float)window->getSize().y;
+	boundingBox.push_back(Rect(0,0,width,1));
+	boundingBox.push_back(Rect(0,0,1,height));
+	//boundingBox.push_back(Rect(0,height - 1,width - 1,1));
+	boundingBox.push_back(Rect(width - 1,0,1,height - 1));
+	//
 
 	//Setting some initial values
 	lives = 3;
@@ -69,16 +77,14 @@ void Game::setup()
 void Game::gameScene()
 {
 	//Collisions with screen TODO: Make better
-	if (ball.getX() >= window->getSize().x || ball.getX() <= 0)
-		ball.reverseDirX();
+	// if (ball.getX() >= window->getSize().x || ball.getX() <= 0)
+	// 	ball.reverseDirX();
 
-	if (ball.getY() <= 0)
-		ball.reverseDirY();
+	// if (ball.getY() <= 0)
+	// 	ball.reverseDirY();
 
 	if (ball.getY() >= window->getSize().y)
 	{
-		ball.reverseDirY();
-
 		//Death -- reset positions
 		gVelocity = initVelocity;
 		ball.setVelocity(gVelocity);
@@ -86,48 +92,23 @@ void Game::gameScene()
 		paddle.setVelocity(gVelocity);
 		lives--;
 	}
-	//
 
-	//Collisions with paddle
-	bool isPaddleHit = colls::circleRectangle(ball.getCircle(),
-											  paddle.getRect());
-
-
-
-	if (isPaddleHit)
+	for(auto &b : boundingBox)
 	{
-		//Temporary solution
-		//test collisions with a slightly smaller ball
-		bool isInside = colls::circleRectangle({{ball.getX(), ball.getY()}, ball.getRadius() - 1},
-												paddle.getRect());
-		//Check if the sides are being hit
-		if(ball.getY() >= paddle.getY() && ball.getY() <= paddle.getY() + paddle.getHeight())
-		{
-			ball.reverseDirX();
-		}
-		//If the ball clips inside the paddle move it up slightly
-		else if(isInside)
-		{
-			ball.setY(ball.getY() - 2*paddle.getHeight());
-		}
-		//Check if the top (or bottom) is being hit
-		else
-		{
-			ball.reverseDirY();
-		}
+		// sf::RectangleShape rect(sf::Vector2f(b.w, b.h));
+		// rect.setPosition(b.x, b.y);
+		// window->draw(rect);
+		ball.collRect(b);
 	}
 
-	//
+
+	ball.collRect(paddle.getRect());
 
 	//Collisons with bricks
 	for (auto &b : bricks)
 	{
-		bool isBrickHit = colls::circleRectangle(ball.getCircle(),
-												 b.getRect());
-
-		if (isBrickHit)
+		if(ball.collRect(b.getRect()))
 		{
-			ball.reverseDirY();
 			//Destroy brick
 			b = bricks.back();
 			bricks.pop_back();

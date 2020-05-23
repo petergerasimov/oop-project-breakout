@@ -21,6 +21,7 @@ class GameObject
 		void setY(float y);
 		void setPos(sf::Vector2f p);
 		void setDir(sf::Vector2f dir);
+		void setDir(float angle);
 		void setVelocity(float vel);
 		void setWindow(sf::RenderWindow* window);
 

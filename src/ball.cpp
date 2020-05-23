@@ -25,7 +25,7 @@ float Ball::getRadius()
 
 Circle Ball::getCircle()
 {
-	return Circle({{getX(), getY()}, radius});
+	return Circle({getX(), getY(), radius});
 }
 
 void Ball::init()
@@ -54,4 +54,54 @@ void Ball::reverseDirX()
 void Ball::reverseDirY()
 {
 	setDir({getDir().x ,-getDir().y});
+}
+
+bool Ball::collRect(Rect rect)
+{
+	bool toReturn = false;
+	float closestX;
+	float closestY;
+	closestX = std::abs(getX() - rect.x ) < std::abs(getX() - (rect.x + rect.w) ) ? rect.x : (rect.x + rect.w);
+	closestY = std::abs(getY() - rect.y ) < std::abs(getY() - (rect.y + rect.h) ) ? rect.y : (rect.y + rect.h);
+
+	bool inX = false;
+	bool inY = false;
+
+	if(closestX < getX())
+		inX = getX() + radius > rect.x && getX() - radius < rect.x + rect.w;
+	else
+		inX = getX() - radius > rect.x && getX() + radius < rect.x + rect.w;
+
+	if(closestY < getY())
+		inY = getY() + radius > rect.y && getY() - radius < rect.y + rect.h;
+	else
+		inY = getY() - radius > rect.y && getY() + radius < rect.y + rect.h;
+
+
+	if(inX)
+	{
+		if(std::abs(getY() - closestY) < radius)
+		{
+			//Change direction only if the ball is going towards the center of the rectangle
+			if(std::signbit(getDir().y) == std::signbit(rect.y + (rect.h / 2) - getY()))
+			{
+				reverseDirY();
+			}
+			toReturn = true;
+		}
+	}
+	if(inY)
+	{
+		if(std::abs(getX() - closestX) < radius)
+		{
+			//Change direction only if the ball is going towards the center of the rectangle
+			if(std::signbit(getDir().x) == std::signbit(rect.x + (rect.w / 2) - getX()))
+			{
+				reverseDirX();
+			}
+			toReturn = true;
+		}
+	}
+
+	return toReturn;
 }

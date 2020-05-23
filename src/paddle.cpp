@@ -37,7 +37,7 @@ float Paddle::getHeight()
 
 Rect Paddle::getRect()
 {
-	Rect r = {{getX(), getY()}, width, height};
+	Rect r = {getX(), getY(), width, height};
 	return r;
 }
 

@@ -44,6 +44,12 @@ void GameObject::setDir(sf::Vector2f dir)
 	this->dir.y = dir.y/divBy;
 }
 
+void GameObject::setDir(float angle)
+{
+	this->dir.x = std::cos(angle);
+	this->dir.y = std::sin(angle);
+}
+
 void GameObject::setVelocity(float vel)
 {
 	this->vel = vel;

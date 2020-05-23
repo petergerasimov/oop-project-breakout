@@ -15,7 +15,7 @@ class Ball : public GameObject
 	public:
 		Ball();
 		Ball(sf::RenderWindow* window);
-		//Setters
+		//Setters7
 		void setRadius(float radius);
 		//Getters
 		float getRadius();
@@ -23,6 +23,7 @@ class Ball : public GameObject
 
 		void reverseDirX();
 		void reverseDirY();
+		bool collRect(Rect rect);
 
 };
 

@@ -22,6 +22,7 @@ class Game
 		Ball ball;
 		Paddle paddle;
 		std::vector<Brick> bricks;
+		std::vector<Rect> boundingBox;
 		//Brick parameters
 		int bricksPerRow = 6;
 		int brickRows = 6;

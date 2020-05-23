@@ -37,7 +37,7 @@ float Brick::getHeight()
 
 Rect Brick::getRect()
 {
-	Rect r = {{getX(), getY()}, width, height};
+	Rect r = {getX(), getY(), width, height};
 	return r;
 }
 
