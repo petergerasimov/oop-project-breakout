@@ -28,14 +28,14 @@ class GameObject
 		void setBoundingBox(Rect boundingBox);
 
 		//Getters
-		float getX();
-		float getY();
-		sf::Vector2f getPos();
-		float getVelocity();
-		sf::RenderWindow* getWindow();
-		Rect getBoundingBox();
+		float getX() const;
+		float getY() const;
+		sf::Vector2f getPos() const;
+		float getVelocity() const;
+		sf::RenderWindow* getWindow() const;
+		Rect getBoundingBox() const;
+		sf::Vector2f getDir() const;
 
-		sf::Vector2f getDir();
 		virtual void draw();
 		virtual void updatePos();
 		virtual void checkBounds();

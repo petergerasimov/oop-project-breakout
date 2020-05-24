@@ -43,6 +43,7 @@ class Game
 		float getDeltaTime();
 		//Making the game play the same on different computers
 		void updateVelocities();
+		std::string enterText();
 	public:
 		Game(sf::RenderWindow* window, sf::Event* event);
 		void gameScene();

@@ -66,37 +66,37 @@ void GameObject::setBoundingBox(Rect boundingBox)
 
 
 //Getters
-float GameObject::getX()
+float GameObject::getX() const
 {
 	return this->pos.x;
 }
 
-float GameObject::getY()
+float GameObject::getY() const
 {
 	return this->pos.y;
 }
 
-sf::Vector2f GameObject::getPos()
+sf::Vector2f GameObject::getPos() const
 {
 	return this->pos;
 }
 
-sf::Vector2f GameObject::getDir()
+sf::Vector2f GameObject::getDir() const
 {
 	return this->dir;
 }
 
-float GameObject::getVelocity()
+float GameObject::getVelocity() const
 {
 	return this->vel;
 }
 
-sf::RenderWindow* GameObject::getWindow()
+sf::RenderWindow* GameObject::getWindow() const
 {
 	return window;
 }
 
-Rect GameObject::getBoundingBox()
+Rect GameObject::getBoundingBox() const
 {
 	return boundingBox;
 }
@@ -121,5 +121,5 @@ void GameObject::draw()
 
 void GameObject::checkBounds()
 {
-	//std::cout << "testing";
+	//std::cout << "checking bounds";
 }

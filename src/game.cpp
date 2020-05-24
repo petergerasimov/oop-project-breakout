@@ -8,6 +8,10 @@ Game::Game(sf::RenderWindow *window, sf::Event* event)
 	//this fixes window resize issues
 	width = (float)window->getSize().x;
 	height = (float)window->getSize().y;
+
+	if (!font.loadFromFile("content/FredokaOne-Regular.ttf"))
+		std::cout << "Font not loaded";
+
 	setup();
 }
 
@@ -44,7 +48,7 @@ void Game::setup()
 	ballStartPos = getScreenCenter();
 
 	ball.setVelocity(gVelocity);
-	ball.setDir({1, 3});
+	ball.setDir({0, 1});
 	//adding 10 so the ball can go out of screen
 	ball.setBoundingBox({0, 0, width, height + 10});
 	ball.setPos(ballStartPos);
@@ -52,12 +56,13 @@ void Game::setup()
 	paddle.setWidth(width / 5);
 	paddle.setVelocity(gVelocity);
 	paddle.setBoundingBox({0, 0, width, height});
-	paddle.setPos({width / 2,
+	paddle.setPos({width / 2 - paddle.getWidth()/2,
 				   height - 2 * paddle.getHeight()});
 
 	//Placing all the bricks
 	float brickWidth = width / bricksPerRow;
 	float brickHeight = brickWidth / 6;
+	float xOff = 2.5f;
 	for (int i = 0; i < bricksPerRow; i++)
 	{
 		for (int j = 0; j < brickRows; j++)
@@ -66,14 +71,13 @@ void Game::setup()
 			int index = i * brickRows + j;
 			bricks[index].setWidth(brickWidth - brickPadding);
 			bricks[index].setHeight(brickHeight);
-			float x = i * brickWidth;
+			float x = xOff + i * brickWidth;
 			float y = j * (bricks[index].getHeight() + brickPadding) + brickOffset;
 			bricks[index].setPos({x, y});
 		}
 	}
 
-	if (!font.loadFromFile("content/FredokaOne-Regular.ttf"))
-		std::cout << "Font not loaded";
+
 
 
 	std::vector<sf::Text*> texts = {&scoreText, &gameOverText, &playerNameText};
@@ -83,27 +87,34 @@ void Game::setup()
 		t->setCharacterSize(brickOffset / 2);
 	}
 	gameOverText.setPosition(getScreenCenter());
+	//This fixes a bug after reseting the game
+	//Because the velocities change as a function of the elapsed time
+	//If you wait too much on the loading screen the speed gets really big
+	clock.restart();
 }
 
 void Game::gameScene()
 {
 
-	if (ball.getY() >= height)
+	if (ball.getY() >= height - ball.getRadius())
 		onDeath();
 
 	ball.collRect(paddle.getRect());
 
-	for (auto &b : bricks)
+	//auto for loop caused crashes sometimes
+	int sz = bricks.size();
+	for(int i = 0; i < sz; i++)
 	{
-		if(ball.collRect(b.getRect()))
+		if(ball.collRect(bricks[i].getRect()))
 		{
 			//Destroy brick
-			b = bricks.back();
+			bricks[i] = bricks[sz - 1];
 			bricks.pop_back();
+			sz--;
 
 			scoreUpdate();
 		}
-		b.update();
+		bricks[i].update();
 	}
 
 	updateVelocities();
@@ -120,6 +131,7 @@ void Game::onDeath()
 	ball.setVelocity(gVelocity);
 	ball.setPos(ballStartPos);
 	paddle.setVelocity(gVelocity);
+	ball.setDir({0, 1});
 	lives--;
 }
 
@@ -130,6 +142,43 @@ void Game::scoreUpdate()
 	paddle.setVelocity(gVelocity);
 	ball.setVelocity(gVelocity);
 }
+
+std::string Game::enterText()
+{
+	static sf::Clock textClock;
+	static std::string toReturn;
+	if (event->type == sf::Event::TextEntered)
+	{
+		//If someone somehow types a non-ascii symbol it will be displayed as a #
+		char c = '#';
+		static char last = 0;
+
+		if(event->text.unicode < 128)
+		{
+			c = (char)event->text.unicode;
+		}
+
+		if (last != c || clock.getElapsedTime().asMilliseconds() > 175)
+		{
+			if (c == '\b')
+			{
+				if (!toReturn.empty())
+				{
+					toReturn.pop_back();
+				}
+			}
+			else
+			{
+				toReturn.push_back(c);
+
+			}
+			last = c;
+			clock.restart();
+		}
+	}
+	return toReturn;
+}
+
 
 void Game::gameOverScene()
 {
@@ -145,34 +194,13 @@ void Game::gameOverScene()
 
 	if (event->type == sf::Event::TextEntered)
 	{
-		//If someone somehow types a non-ascii symbol it will be displayed as a #
-		char c = '#';
-
-		if(event->text.unicode < 128)
-		{
-			c = (char)event->text.unicode;
-		}
-
-		if(c == '\b')
-		{
-			if(!playerName.empty())
-			{
-				playerName.pop_back();
-			}
-		}
-		else if(c == '\r' || c == '\n')
-		{
+		char c = (char)event->text.unicode;
+		if(c == '\r' || c == '\n')
 			setup();
-		}
-		else
-		{
-			playerName.push_back(c);
-		}
-
-
-		sf::Time t = sf::milliseconds(120);
-		sf::sleep(t);
 	}
+
+	playerName = enterText();
+
 	if(playerName.empty())
 	{
 		playerNameText.setString("Type name");

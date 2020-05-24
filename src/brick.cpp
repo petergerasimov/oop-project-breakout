@@ -11,6 +11,16 @@ Brick::Brick(sf::RenderWindow* window)
 	init();
 }
 
+Brick& Brick::operator=(const Brick& b)
+{
+    setX(b.getX());
+    setY(b.getY());
+    setWidth(b.getWidth());
+    setHeight(b.getHeight());
+	setWindow(b.getWindow());
+    return *this;
+}
+
 //Setters
 void Brick::setWidth(float width)
 {
@@ -25,12 +35,12 @@ void Brick::setHeight(float height)
 }
 
 //Getters
-float Brick::getWidth()
+float Brick::getWidth() const
 {
 	return this->width;
 }
 
-float Brick::getHeight()
+float Brick::getHeight() const
 {
 	return this->height;
 }

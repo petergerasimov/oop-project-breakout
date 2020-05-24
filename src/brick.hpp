@@ -15,13 +15,13 @@ class Brick : public GameObject
 	public:
 		Brick();
 		Brick(sf::RenderWindow* window);
-
+		Brick& operator=(const Brick& b);
 		//Setters
 		void setWidth(float width);
 		void setHeight(float height);
 		//Getters
-		float getWidth();
-		float getHeight();
+		float getWidth() const;
+		float getHeight() const;
 		Rect getRect();
 };
 
