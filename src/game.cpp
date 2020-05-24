@@ -5,13 +5,30 @@ Game::Game(sf::RenderWindow *window, sf::Event* event)
 {
 	this->window = window;
 	this->event = event;
+	//this fixes window resize issues
+	width = (float)window->getSize().x;
+	height = (float)window->getSize().y;
 	setup();
 }
 
 sf::Vector2f Game::getScreenCenter()
 {
-	return {(float)window->getSize().x / 2,
-			(float)window->getSize().y / 2};
+	return {width / 2, height / 2};
+}
+
+float Game::getDeltaTime()
+{
+    float timeDifference = clock.getElapsedTime().asSeconds();
+    clock.restart();
+	return timeDifference;
+}
+
+void Game::updateVelocity()
+{
+	const float normal = 1.0f / 1200; //On my machine the game runs on about 1200 fps
+	float vel = gVelocity * getDeltaTime() / normal;
+	ball.setVelocity(vel);
+	paddle.setVelocity(vel);
 }
 
 void Game::setup()
@@ -23,7 +40,7 @@ void Game::setup()
 	//Setting some initial values
 	lives = 3;
 	score = 0;
-	gVelocity = initVelocity = 0.15;
+	gVelocity = initVelocity = 0.25;
 
 	ball.setVelocity(gVelocity);
 	ball.setDir({1, 3});
@@ -31,13 +48,13 @@ void Game::setup()
 	ballStartPos = getScreenCenter();
 	ball.setPos(ballStartPos);
 
-	paddle.setWidth(window->getSize().x / 5);
+	paddle.setWidth(width / 5);
 	paddle.setVelocity(gVelocity);
-	paddle.setPos({(float)window->getSize().x / 2,
-				   (float)window->getSize().y - 2 * paddle.getHeight()});
+	paddle.setPos({width / 2,
+				   height - 2 * paddle.getHeight()});
 
 	//Placing all the bricks
-	float brickWidth = window->getSize().x / bricksPerRow;
+	float brickWidth = width / bricksPerRow;
 	float brickHeight = brickWidth / 6;
 	for (int i = 0; i < bricksPerRow; i++)
 	{
@@ -69,16 +86,14 @@ void Game::setup()
 void Game::gameScene()
 {
 	//Collisions with screen
-	if (ball.getX() >= window->getSize().x || ball.getX() <= 0)
+	if (ball.getX() >= width || ball.getX() <= 0)
 		ball.reverseDirX();
 
 	if (ball.getY() <= 0)
 		ball.reverseDirY();
 
-	if (ball.getY() >= window->getSize().y)
-	{
+	if (ball.getY() >= height)
 		onDeath();
-	}
 
 	ball.collRect(paddle.getRect());
 
@@ -95,10 +110,7 @@ void Game::gameScene()
 		b.update();
 	}
 
-	//
-	// ball.setX(sf::Mouse::getPosition().x);
-	// ball.setY(sf::Mouse::getPosition().y);
-	//
+	updateVelocity();
 	ball.update();
 	paddle.update();
 	scoreText.setString("Score: " + std::to_string(score) +
@@ -118,20 +130,21 @@ void Game::onDeath()
 void Game::scoreUpdate()
 {
 	score += 100 * gVelocity;
-	gVelocity += 0.01;
+	gVelocity += 0.025;
 	paddle.setVelocity(gVelocity);
 	ball.setVelocity(gVelocity);
 }
 
 void Game::gameOverScene()
 {
-	float width = gameOverText.getLocalBounds().width;
-	gameOverText.setOrigin(width / 2, 0);
+	float textWidth = gameOverText.getLocalBounds().width;
+	gameOverText.setOrigin(textWidth / 2, 0);
 	gameOverText.setString("Game over!\nScore: " + std::to_string(score));
 
-	playerNameText.setOrigin(width / 2, 0);
-	playerNameText.setPosition({(float)window->getSize().x / 2,
-	 							gameOverText.getPosition().y + gameOverText.getLocalBounds().height + 10});
+	playerNameText.setOrigin(textWidth / 2, 0);
+	playerNameText.setPosition({width / 2,
+	 							gameOverText.getPosition().y +
+								gameOverText.getLocalBounds().height + 10 });
 
 
 	if (event->type == sf::Event::TextEntered)

@@ -16,6 +16,10 @@ class Game
 		sf::Text scoreText;
 		sf::Text gameOverText;
 		sf::Text playerNameText;
+		sf::Clock clock;
+		//window size vars
+		float width;
+		float height;
 		//
 		std::string playerName;
 		//Game objects
@@ -36,7 +40,9 @@ class Game
 		float gVelocity;
 
 		sf::Vector2f getScreenCenter();
-
+		float getDeltaTime();
+		//Making the game play the same on different computers
+		void updateVelocity();
 	public:
 		Game(sf::RenderWindow* window, sf::Event* event);
 		void gameScene();
