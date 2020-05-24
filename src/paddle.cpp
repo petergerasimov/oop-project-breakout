@@ -63,6 +63,19 @@ void Paddle::input()
 	}
 }
 
+void Paddle::checkBounds()
+{
+	Rect b = getBoundingBox();
+	if(getX() < b.x)
+	{
+		setX(b.x);
+	}
+	else if(getX() > b.w - getWidth())
+	{
+		setX(b.w - getWidth());
+	}
+}
+
 void Paddle::updatePos()
 {
 	input();

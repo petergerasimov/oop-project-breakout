@@ -11,6 +11,7 @@ class Ball : public GameObject
 		sf::CircleShape shape;
 		sf::Texture shapeTexture;
 		void draw();
+		void checkBounds();
 		void init();
 		//maps variable x from range [a,b] to range [c,d]
 		float map(float x, float a, float b, float c, float d);

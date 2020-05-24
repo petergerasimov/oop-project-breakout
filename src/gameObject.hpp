@@ -10,6 +10,7 @@ class GameObject
 		sf::Vector2f dir = {0, 0};
 		float vel = 1;
 		sf::RenderWindow* window = nullptr;
+		Rect boundingBox = {0, 0, 0, 0};
 
 	public:
 		GameObject();
@@ -24,6 +25,7 @@ class GameObject
 		void setDir(float angle);
 		void setVelocity(float vel);
 		void setWindow(sf::RenderWindow* window);
+		void setBoundingBox(Rect boundingBox);
 
 		//Getters
 		float getX();
@@ -31,10 +33,12 @@ class GameObject
 		sf::Vector2f getPos();
 		float getVelocity();
 		sf::RenderWindow* getWindow();
+		Rect getBoundingBox();
 
 		sf::Vector2f getDir();
 		virtual void draw();
 		virtual void updatePos();
+		virtual void checkBounds();
 		void update();
 };
 

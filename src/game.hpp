@@ -42,7 +42,7 @@ class Game
 		sf::Vector2f getScreenCenter();
 		float getDeltaTime();
 		//Making the game play the same on different computers
-		void updateVelocity();
+		void updateVelocities();
 	public:
 		Game(sf::RenderWindow* window, sf::Event* event);
 		void gameScene();

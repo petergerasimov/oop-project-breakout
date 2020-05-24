@@ -23,7 +23,7 @@ float Game::getDeltaTime()
 	return timeDifference;
 }
 
-void Game::updateVelocity()
+void Game::updateVelocities()
 {
 	const float normal = 1.0f / 1200; //On my machine the game runs on about 1200 fps
 	float vel = gVelocity * getDeltaTime() / normal;
@@ -41,15 +41,17 @@ void Game::setup()
 	lives = 3;
 	score = 0;
 	gVelocity = initVelocity = 0.25;
+	ballStartPos = getScreenCenter();
 
 	ball.setVelocity(gVelocity);
 	ball.setDir({1, 3});
-	//ball.setDir(-2.0f);
-	ballStartPos = getScreenCenter();
+	//adding 10 so the ball can go out of screen
+	ball.setBoundingBox({0, 0, width, height + 10});
 	ball.setPos(ballStartPos);
 
 	paddle.setWidth(width / 5);
 	paddle.setVelocity(gVelocity);
+	paddle.setBoundingBox({0, 0, width, height});
 	paddle.setPos({width / 2,
 				   height - 2 * paddle.getHeight()});
 
@@ -85,12 +87,6 @@ void Game::setup()
 
 void Game::gameScene()
 {
-	//Collisions with screen
-	if (ball.getX() >= width || ball.getX() <= 0)
-		ball.reverseDirX();
-
-	if (ball.getY() <= 0)
-		ball.reverseDirY();
 
 	if (ball.getY() >= height)
 		onDeath();
@@ -110,7 +106,7 @@ void Game::gameScene()
 		b.update();
 	}
 
-	updateVelocity();
+	updateVelocities();
 	ball.update();
 	paddle.update();
 	scoreText.setString("Score: " + std::to_string(score) +

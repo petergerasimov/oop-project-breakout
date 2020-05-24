@@ -59,6 +59,11 @@ void GameObject::setWindow(sf::RenderWindow* window)
 {
 	this->window = window;
 }
+void GameObject::setBoundingBox(Rect boundingBox)
+{
+	this->boundingBox = boundingBox;
+}
+
 
 //Getters
 float GameObject::getX()
@@ -91,6 +96,11 @@ sf::RenderWindow* GameObject::getWindow()
 	return window;
 }
 
+Rect GameObject::getBoundingBox()
+{
+	return boundingBox;
+}
+
 void GameObject::updatePos()
 {
 	this->pos.x += this->dir.x * this->vel;
@@ -99,6 +109,7 @@ void GameObject::updatePos()
 
 void GameObject::update()
 {
+	checkBounds();
 	updatePos();
 	draw();
 }
@@ -106,4 +117,9 @@ void GameObject::update()
 void GameObject::draw()
 {
 	std::cout << "drawing" << std::endl;
+}
+
+void GameObject::checkBounds()
+{
+	//std::cout << "testing";
 }

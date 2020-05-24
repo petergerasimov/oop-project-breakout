@@ -13,6 +13,7 @@ class Paddle : public GameObject
 		sf::Texture shapeTexture;
 		void draw();
 		void input();
+		void checkBounds();
 		void init();
 		void updatePos();
 	public:
