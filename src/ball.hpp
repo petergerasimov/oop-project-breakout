@@ -9,7 +9,7 @@ class Ball : public GameObject
 	private:
 		float radius = 5;
 		sf::CircleShape shape;
-		sf::Texture shapeTexture;
+
 		void draw();
 		void checkBounds();
 		void init();

@@ -10,7 +10,6 @@ class Paddle : public GameObject
 		float width = 50;
 		float height = 10;
 		sf::RectangleShape shape;
-		sf::Texture shapeTexture;
 		void draw();
 		void input();
 		void checkBounds();

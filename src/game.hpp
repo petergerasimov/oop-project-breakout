@@ -20,19 +20,15 @@ class Game
 		//window size vars
 		float width;
 		float height;
-		//
-		std::string playerName;
 		//Game objects
 		Ball ball;
 		Paddle paddle;
 		std::vector<Brick> bricks;
-		//Brick parameters
-		int bricksPerRow = 6;
-		int brickRows = 6;
-		float brickPadding = 5;
-		float brickOffset = 40;
 		//Game vars
 		int score = 0;
+		std::string playerName;
+		int highScore = 0;
+		std::string hsHolder;
 		int lives = 3;
 		float initVelocity = 0.1;
 		sf::Vector2f ballStartPos;
@@ -44,6 +40,8 @@ class Game
 		//Making the game play the same on different computers
 		void updateVelocities();
 		std::string enterText();
+		void saveHighScore(const char *file);
+		void loadHighScore(const char *file);
 	public:
 		Game(sf::RenderWindow* window, sf::Event* event);
 		void gameScene();

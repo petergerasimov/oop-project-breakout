@@ -63,6 +63,11 @@ void GameObject::setBoundingBox(Rect boundingBox)
 {
 	this->boundingBox = boundingBox;
 }
+void GameObject::setTexture(std::string filename)
+{
+	if(!shapeTexture.loadFromFile(filename))
+		std::cout << "Texture not loaded!";
+}
 
 
 //Getters
@@ -100,6 +105,12 @@ Rect GameObject::getBoundingBox() const
 {
 	return boundingBox;
 }
+
+sf::Texture* GameObject::getTexture()
+{
+	return &shapeTexture;
+}
+
 
 void GameObject::updatePos()
 {

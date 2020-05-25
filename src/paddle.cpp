@@ -45,9 +45,8 @@ Rect Paddle::getRect()
 void Paddle::draw()
 {
 	shape.setPosition(getX(), getY());
-	shape.setTexture(&shapeTexture);
+	shape.setTexture(getTexture());
 	getWindow()->draw(shape);
-
 }
 
 void Paddle::input()
@@ -87,7 +86,4 @@ void Paddle::init()
 {
 	shape.setSize(sf::Vector2f(this->width, this->height));
 	shape.setFillColor(sf::Color::White);
-
-	if(!shapeTexture.loadFromFile("content/paddle.png"))
-		std::cout << "Texture not loaded!";
 }

@@ -33,14 +33,11 @@ void Ball::init()
 	shape.setRadius(this->radius);
 	shape.setOrigin({this->radius, this->radius});
 	shape.setFillColor(sf::Color::White);
-
-	if(!shapeTexture.loadFromFile("content/ball.png"))
-		std::cout << "Texture not loaded!";
 }
 void Ball::draw()
 {
 	shape.setPosition(getX(), getY());
-	shape.setTexture(&shapeTexture);
+	shape.setTexture(getTexture());
 	getWindow()->draw(shape);
 }
 

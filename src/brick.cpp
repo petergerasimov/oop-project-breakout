@@ -54,7 +54,7 @@ Rect Brick::getRect()
 void Brick::draw()
 {
 	shape.setPosition(getX(), getY());
-	shape.setTexture(&shapeTexture);
+	shape.setTexture(getTexture());
 	getWindow()->draw(shape);
 
 }
@@ -63,7 +63,4 @@ void Brick::init()
 {
 	shape.setSize(sf::Vector2f(this->width, this->height));
 	shape.setFillColor(sf::Color::White);
-
-	if(!shapeTexture.loadFromFile("content/brick.png"))
-		std::cout << "Texture not loaded!";
 }

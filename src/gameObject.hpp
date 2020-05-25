@@ -8,6 +8,7 @@ class GameObject
 	private:
 		sf::Vector2f pos = {0, 0};
 		sf::Vector2f dir = {0, 0};
+		sf::Texture shapeTexture;
 		float vel = 1;
 		sf::RenderWindow* window = nullptr;
 		Rect boundingBox = {0, 0, 0, 0};
@@ -26,6 +27,7 @@ class GameObject
 		void setVelocity(float vel);
 		void setWindow(sf::RenderWindow* window);
 		void setBoundingBox(Rect boundingBox);
+		void setTexture(std::string filename);
 
 		//Getters
 		float getX() const;
@@ -35,6 +37,7 @@ class GameObject
 		sf::RenderWindow* getWindow() const;
 		Rect getBoundingBox() const;
 		sf::Vector2f getDir() const;
+		sf::Texture* getTexture();
 
 		virtual void draw();
 		virtual void updatePos();

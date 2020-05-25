@@ -52,39 +52,46 @@ void Game::setup()
 	//adding 10 so the ball can go out of screen
 	ball.setBoundingBox({0, 0, width, height + 10});
 	ball.setPos(ballStartPos);
+	ball.setTexture("content/ball.png");
 
 	paddle.setWidth(width / 5);
 	paddle.setVelocity(gVelocity);
 	paddle.setBoundingBox({0, 0, width, height});
 	paddle.setPos({width / 2 - paddle.getWidth()/2,
 				   height - 2 * paddle.getHeight()});
+	paddle.setTexture("content/paddle.png");
 
-	//Placing all the bricks
+
+	//Brick parameters
+	int bricksPerRow = 6;
+	int brickRows = 6;
+	float brickPadding = 5;
 	float brickWidth = width / bricksPerRow;
 	float brickHeight = brickWidth / 6;
-	float xOff = 2.5f;
+	float yOff = 40;
+	float xOff = brickPadding / 2;
+	//Placing all the bricks
 	for (int i = 0; i < bricksPerRow; i++)
 	{
 		for (int j = 0; j < brickRows; j++)
 		{
 			bricks.push_back(Brick(window));
+
 			int index = i * brickRows + j;
+			bricks[index].setTexture("content/brick.png");
 			bricks[index].setWidth(brickWidth - brickPadding);
 			bricks[index].setHeight(brickHeight);
 			float x = xOff + i * brickWidth;
-			float y = j * (bricks[index].getHeight() + brickPadding) + brickOffset;
+			float y = j * (bricks[index].getHeight() + brickPadding) + yOff;
 			bricks[index].setPos({x, y});
 		}
 	}
-
-
-
 
 	std::vector<sf::Text*> texts = {&scoreText, &gameOverText, &playerNameText};
 	for(auto &t : texts)
 	{
 		t->setFont(font);
-		t->setCharacterSize(brickOffset / 2);
+		t->setCharacterSize(yOff / 2);
 	}
 	gameOverText.setPosition(getScreenCenter());
 	//This fixes a bug after reseting the game
@@ -113,6 +120,9 @@ void Game::gameScene()
 			sz--;
 
 			scoreUpdate();
+			//Making sure update doesn't get called for a non-existing brick
+			if(i == sz)
+				continue;
 		}
 		bricks[i].update();
 	}
@@ -183,8 +193,17 @@ std::string Game::enterText()
 void Game::gameOverScene()
 {
 	float textWidth = gameOverText.getLocalBounds().width;
+	static const char hsFile[] = "hs.dat";
+	loadHighScore(hsFile);
+	if(score > highScore)
+	{
+		highScore = score;
+		hsHolder = "New";
+	}
+
 	gameOverText.setOrigin(textWidth / 2, 0);
-	gameOverText.setString("Game over!\nScore: " + std::to_string(score));
+	gameOverText.setString("Game over!\nScore: " + std::to_string(score) +
+							"\nHigh Score: " + std::to_string(highScore) + " by " + hsHolder );
 
 	playerNameText.setOrigin(textWidth / 2, 0);
 	playerNameText.setPosition({width / 2,
@@ -196,7 +215,16 @@ void Game::gameOverScene()
 	{
 		char c = (char)event->text.unicode;
 		if(c == '\r' || c == '\n')
+		{
+			if(score == highScore)
+			{
+				highScore = score;
+				hsHolder = playerName;
+				saveHighScore(hsFile);
+			}
 			setup();
+		}
+
 	}
 
 	playerName = enterText();
@@ -228,4 +256,44 @@ void Game::update()
 		gameOverScene();
 	}
 
+}
+
+void Game::saveHighScore(const char* file)
+{
+	if (highScore > 0)
+	{
+		std::ofstream outfile;
+		outfile.open(file, std::ios::binary | std::ios::out | std::ios::trunc);
+
+		outfile.write((char *)&highScore, sizeof(highScore));
+
+		int nameLen = hsHolder.length();
+		outfile.write((char *)&nameLen, sizeof(nameLen));
+		outfile.write(hsHolder.c_str(), sizeof(char) * nameLen);
+
+		outfile.close();
+	}
+}
+
+void Game::loadHighScore(const char *file)
+{
+	std::ifstream infile;
+	infile.open(file, std::ios::binary | std::ios::in);
+	if (infile)
+	{
+		highScore = 0;
+		infile.read((char *)&highScore, sizeof(highScore));
+
+		int nameLen = 0;
+		infile.read((char *)&nameLen, sizeof(nameLen));
+
+		hsHolder.clear();
+		for (int i = 0; i < nameLen && !infile.eof(); i++)
+		{
+			char c;
+			infile.read(&c, sizeof(c));
+			hsHolder.push_back(c);
+		}
+	}
+	infile.close();
 }
