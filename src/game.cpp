@@ -198,7 +198,7 @@ void Game::gameOverScene()
 	if(score > highScore)
 	{
 		highScore = score;
-		hsHolder = "New";
+		hsHolder = "you <3";
 	}
 
 	gameOverText.setOrigin(textWidth / 2, 0);
