@@ -39,13 +39,36 @@ class Brick : public GameObject
 		* @param window указател към прозорец
 		*/
 		Brick(sf::RenderWindow* window);
+		/**
+		* Предефинирана операция за присвояване.
+		*/
 		Brick& operator=(const Brick& b);
 		//Setters
+		/**
+		* Задава широчината на тухлата.
+		* @param width реално число
+		*/
 		void setWidth(float width);
+		/**
+		* Задава височина на тухлата.
+		* @param height реално число
+		*/
 		void setHeight(float height);
 		//Getters
+		/**
+		* Връща широчината на тухлата.
+		* @return реално число
+		*/
 		float getWidth() const;
+		/**
+		* Връща височината на тухлата.
+		* @return реално число
+		*/
 		float getHeight() const;
+		/**
+		* Връща широчината, височината и координатите.
+		* @return правоъгълник (Rect)
+		*/
 		Rect getRect();
 };
 
